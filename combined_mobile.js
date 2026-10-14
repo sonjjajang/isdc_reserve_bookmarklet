@@ -2,9 +2,21 @@
 var h=location.hostname;
 if(h!=='res.isdc.co.kr'&&h!=='gjcenter.gjcs.or.kr'){
 try{
+// 모바일에서 이 오버레이가 실제 화면 크기와 무관하게 조그맣게 보이는 문제 -
+// 원인은 이 오버레이가 아니라 "띄우려는 그 페이지"에 <meta viewport>가 없는
+// 경우, 모바일 브라우저가 기본 가상 뷰포트(980px)로 전체 페이지를 렌더링한
+// 뒤 화면 폭에 맞춰 통째로 축소해버리기 때문(우리 오버레이도 그 축소된
+// 레이아웃 안에 끼여서 같이 작아짐). 페이지에 뷰포트 태그를 강제로 넣어서
+// 바로잡는다 - 버튼을 누르면 바로 다른 사이트로 이동하는 임시 화면이라,
+// 원래 페이지 레이아웃에 영향을 줘도 문제되지 않는다.
+try{
+var vp=document.querySelector('meta[name="viewport"]');
+if(!vp){vp=document.createElement('meta');vp.setAttribute('name','viewport');document.head.appendChild(vp);}
+vp.setAttribute('content','width=device-width, initial-scale=1');
+}catch(e){}
 var ov=document.createElement('div');
 ov.style.cssText='position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;font-family:-apple-system,sans-serif;';
-ov.innerHTML='<div style="background:#fff;color:#111;padding:28px 32px;border-radius:10px;max-width:320px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.3);"><div style="font-weight:700;font-size:17px;margin-bottom:16px;">🎾 테니스 예약 바로가기</div><div style="display:flex;flex-direction:column;gap:10px;"><button id="__tnm_go_gj" style="padding:12px 16px;border:none;border-radius:6px;background:#2563eb;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">양벌돔으로 이동</button><button id="__tnm_go_sn" style="padding:12px 16px;border:none;border-radius:6px;background:#1a1a1a;color:#fff;font-size:14px;font-weight:600;cursor:pointer;">성남으로 이동</button><button id="__tnm_cancel" style="padding:8px 16px;border:none;background:transparent;color:#999;font-size:12px;cursor:pointer;">닫기</button></div></div>';
+ov.innerHTML='<div style="background:#fff;color:#111;padding:36px 28px;border-radius:14px;width:min(92vw,380px);box-sizing:border-box;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.3);"><div style="font-weight:700;font-size:22px;margin-bottom:24px;">🎾 테니스 예약 바로가기</div><div style="display:flex;flex-direction:column;gap:14px;"><button id="__tnm_go_gj" style="padding:18px 20px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:19px;font-weight:600;cursor:pointer;">양벌돔으로 이동</button><button id="__tnm_go_sn" style="padding:18px 20px;border:none;border-radius:10px;background:#1a1a1a;color:#fff;font-size:19px;font-weight:600;cursor:pointer;">성남으로 이동</button><button id="__tnm_cancel" style="padding:12px 20px;border:none;background:transparent;color:#999;font-size:16px;cursor:pointer;">닫기</button></div></div>';
 document.body.appendChild(ov);
 ov.querySelector('#__tnm_go_gj').onclick=function(){location.href='https://gjcenter.gjcs.or.kr/fmcs/1';};
 ov.querySelector('#__tnm_go_sn').onclick=function(){location.href='https://res.isdc.co.kr/index.do';};
