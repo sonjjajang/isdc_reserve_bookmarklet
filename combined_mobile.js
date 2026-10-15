@@ -2,13 +2,13 @@
 var h=location.hostname;
 if(h!=='res.isdc.co.kr'&&h!=='gjcenter.gjcs.or.kr'){
 try{
-// 모바일에서 이 오버레이가 실제 화면 크기와 무관하게 조그맣게 보이는 문제 -
-// 원인은 이 오버레이가 아니라 "띄우려는 그 페이지"에 <meta viewport>가 없는
-// 경우, 모바일 브라우저가 기본 가상 뷰포트(980px)로 전체 페이지를 렌더링한
-// 뒤 화면 폭에 맞춰 통째로 축소해버리기 때문(우리 오버레이도 그 축소된
-// 레이아웃 안에 끼여서 같이 작아짐). 페이지에 뷰포트 태그를 강제로 넣어서
-// 바로잡는다 - 버튼을 누르면 바로 다른 사이트로 이동하는 임시 화면이라,
-// 원래 페이지 레이아웃에 영향을 줘도 문제되지 않는다.
+/* 모바일에서 이 오버레이가 실제 화면 크기와 무관하게 조그맣게 보이는 문제 -
+   원인은 이 오버레이가 아니라 "띄우려는 그 페이지"에 <meta viewport>가 없는
+   경우, 모바일 브라우저가 기본 가상 뷰포트(980px)로 전체 페이지를 렌더링한
+   뒤 화면 폭에 맞춰 통째로 축소해버리기 때문(우리 오버레이도 그 축소된
+   레이아웃 안에 끼여서 같이 작아짐). 페이지에 뷰포트 태그를 강제로 넣어서
+   바로잡는다 - 버튼을 누르면 바로 다른 사이트로 이동하는 임시 화면이라,
+   원래 페이지 레이아웃에 영향을 줘도 문제되지 않는다. */
 try{
 var vp=document.querySelector('meta[name="viewport"]');
 if(!vp){vp=document.createElement('meta');vp.setAttribute('name','viewport');document.head.appendChild(vp);}
@@ -35,7 +35,13 @@ return str.replace('"__GJCS_ISLOGIN_PLACEHOLDER__"',JSON.stringify(__gjInitialIs
 }
 var __isMobile=(function(){try{var ua=navigator.userAgent||'';if(/iPhone|iPad|iPod|Android/i.test(ua))return true;if(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)return true;}catch(e){}return false;})();
 if(__isMobile){
-if(document.title&&document.title.indexOf('테니스')!==-1){return;}
+/* 예전엔 document.title에 "테니스"가 있으면(이미 대시보드가 떠있다고 보고)
+   그냥 아무것도 안 하고 끝냈는데, 이 가드 때문에 한 번 망가진 상태(init 실패
+   등)로 멈추면 다시 북마크릿을 눌러도 계속 조용히 무시돼서 복구가 안 됐다
+   (실측 확인 - 아이폰 사파리가 앱을 꺼도 탭 메모리를 살려서 복원하는 경우
+   이 증상이 재현됨). 매번 새로 그리는 비용은 거의 없으니, 이 가드 자체를
+   없애고 항상 다시 렌더링한다 - 그래야 북마크릿 재실행이 항상 진짜 복구
+   수단이 된다. */
 var mhtml;
 try{mhtml=__tnmApplyGjHint(decodeUtf8B64(b64));}catch(e){alert('디코딩 실패: '+e.message);return;}
 try{setTimeout(function(){try{document.open();document.write(mhtml);document.close();try{window.scrollTo(0,0);}catch(e2){}}catch(e3){alert('렌더링 실패: '+e3.message);}},30);}catch(e){alert('렌더링 실패: '+e.message);}
@@ -56,9 +62,10 @@ w=window.open('','tennis_dashboard','width='+ww+',height='+wh+',left=0,top=0,res
 }
 if(!w){alert('팝업이 차단됐습니다. 팝업 허용 후 다시 시도해주세요.');return;}
 try{w.focus();}catch(e){}
-var alreadyHasDashboard=false;
-try{if(w.document&&w.document.title&&w.document.title.indexOf('테니스')!==-1){alreadyHasDashboard=true;}}catch(e){}
-if(alreadyHasDashboard){return;}
+/* 모바일 쪽과 같은 이유로 "이미 떠있으면 건너뛰기" 가드를 없앴다 - 한 번
+   망가진 채로 멈추면 다시 눌러도 복구가 안 되는 문제가 있었다. 매번 새로
+   그리는 비용은 적으니, 항상 다시 렌더링해서 재실행이 진짜 복구 수단이
+   되게 한다. */
 var html;
 try{html=__tnmApplyGjHint(decodeUtf8B64(b64));}catch(e){alert('디코딩 실패: '+e.message);return;}
 try{w.document.open();w.document.write(html);w.document.close();}catch(e){try{w.document.body.innerHTML='<div style="padding:40px;color:#e85a5a;font-family:monospace;background:#0f1a14;">렌더링 실패: '+e.message+'</div>';}catch(e2){alert('렌더링 실패: '+e.message);}}
