@@ -24,6 +24,15 @@ ov.querySelector('#__tnm_cancel').onclick=function(){try{ov.remove();}catch(e){}
 }catch(e){alert('바로가기 메뉴 표시 실패: '+e.message);}
 return;
 }
+/* 성남은 아직 미완성 버전이라 일반 배포 북마크릿에서는 잠시 막아둔다.
+   개발용 북마크릿(loader_mobile_dev.js)만 window.__TNM_DEV__ 플래그를
+   미리 세팅해두고 이 스크립트를 불러오므로, 거기서는 그대로 통과한다. */
+if(h==='res.isdc.co.kr'){
+try{ if(!window.__TNM_DEV__){
+alert('성남 테니스 예약 기능은 아직 준비 중입니다. 조금만 기다려주세요!');
+return;
+}}catch(e){}
+}
 /* 이전 버전은 여기서 로그인 상태를 추측해 강제로 이동시켰으나, 각 대시보드가 자체 로그인 확인을 하므로 제거함. */
 var __gjInitialIslogin=null;
 if(h==='gjcenter.gjcs.or.kr'){try{__gjInitialIslogin=(typeof ISLOGIN!=='undefined')?Boolean(ISLOGIN):null;}catch(e){__gjInitialIslogin=null;}}
