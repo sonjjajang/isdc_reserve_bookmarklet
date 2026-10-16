@@ -5,7 +5,7 @@
      계속 받는 문제가 있었다. 커밋 SHA로 고정한 raw URL은 그 내용이 절대
      안 바뀌니 영원히 캐싱해도 안전한데, 그 SHA 자체를 매번 GitHub API로
      새로 물어보면(이 API는 캐싱이 훨씬 짧음) 결과적으로 늘 최신을 받게 된다. */
-  var repo = 'sonsungwon/isdc_reserve_bookmarklet';
+  var repo = 'sonjjajang/isdc_reserve_bookmarklet';
   var file = 'combined_mobile.js';
   fetch('https://api.github.com/repos/' + repo + '/commits/main', { cache: 'no-store' })
     .then(function (r) {
