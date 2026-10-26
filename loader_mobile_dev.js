@@ -5,9 +5,12 @@
      그 게이트를 통과해 계속 개발/테스트할 수 있다. 양벌돔 쪽은 플래그와
      무관하게 항상 그대로 동작한다. */
   window.__TNM_DEV__ = true;
+  /* api.github.com의 commits/main 응답도 최대 60초 캐싱됨(실측 확인,
+     gjcs_reserve_bookmarklet 세션 참고) - fetch의 cache:'no-store'는 서버/
+     중간 프록시 캐시는 못 막으므로 타임스탬프 쿼리로 우회한다. */
   var repo = 'sonjjajang/isdc_reserve_bookmarklet';
   var file = 'combined_mobile.js';
-  fetch('https://api.github.com/repos/' + repo + '/commits/main', { cache: 'no-store' })
+  fetch('https://api.github.com/repos/' + repo + '/commits/main?_=' + Date.now(), { cache: 'no-store' })
     .then(function (r) {
       if (!r.ok) throw new Error('커밋 조회 실패 HTTP ' + r.status);
       return r.json();
