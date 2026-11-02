@@ -19,7 +19,7 @@ ov.style.cssText='position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,
 ov.innerHTML='<div style="background:#fff;color:#111;padding:36px 28px;border-radius:14px;width:min(92vw,380px);box-sizing:border-box;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.3);"><div style="font-weight:700;font-size:22px;margin-bottom:24px;">🎾 테니스 예약 바로가기</div><div style="display:flex;flex-direction:column;gap:14px;"><button id="__tnm_go_gj" style="padding:18px 20px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-size:19px;font-weight:600;cursor:pointer;">양벌돔으로 이동</button><button id="__tnm_go_sn" style="padding:18px 20px;border:none;border-radius:10px;background:#1a1a1a;color:#fff;font-size:19px;font-weight:600;cursor:pointer;">성남으로 이동</button><button id="__tnm_cancel" style="padding:12px 20px;border:none;background:transparent;color:#999;font-size:16px;cursor:pointer;">닫기</button></div></div>';
 document.body.appendChild(ov);
 ov.querySelector('#__tnm_go_gj').onclick=function(){location.href='https://gjcenter.gjcs.or.kr/fmcs/1';};
-ov.querySelector('#__tnm_go_sn').onclick=function(){location.href='https://res.isdc.co.kr/index.do';};
+ov.querySelector('#__tnm_go_sn').onclick=function(){location.href='https://res.isdc.co.kr/login.do';};
 ov.querySelector('#__tnm_cancel').onclick=function(){try{ov.remove();}catch(e){}};
 }catch(e){alert('바로가기 메뉴 표시 실패: '+e.message);}
 return;
